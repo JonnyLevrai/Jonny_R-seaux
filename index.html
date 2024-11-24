@@ -15,6 +15,7 @@
             overflow: hidden;
         }
 
+        /* Style de la vidéo YouTube en fond */
         .video-background {
             position: fixed;
             top: 0;
@@ -25,12 +26,14 @@
             overflow: hidden;
         }
 
-        .video-background video {
+        .video-background iframe {
             width: 100%;
             height: 100%;
+            border: none;
             object-fit: cover;
         }
 
+        /* Contenu principal */
         .content {
             display: flex;
             flex-direction: column;
@@ -92,12 +95,14 @@
     </style>
 </head>
 <body>
+
+    <!-- Fond vidéo YouTube -->
     <div class="video-background">
-        <video autoplay loop muted>
-            <source src="hacker-background.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas la vidéo.
-        </video>
+        <iframe src="https://www.youtube.com/embed/KCVN-SuBBWM?autoplay=1&mute=1&loop=1&playlist=KCVN-SuBBWM" 
+                frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
     </div>
+
+    <!-- Contenu principal -->
     <div class="content">
         <h1>Bienvenue dans mon univers</h1>
         <p>Retrouvez-moi sur :</p>
@@ -110,20 +115,25 @@
             <a href="https://snapchat.com" target="_blank">Snapchat</a>
         </div>
     </div>
+
+    <!-- Contrôle audio pour YouTube -->
     <div class="audio-controls">
         <button id="mute-button">Couper le son</button>
     </div>
-    <audio autoplay loop id="background-audio">
-        <source src="hacker-music.mp3" type="audio/mpeg">
-        Votre navigateur ne supporte pas le lecteur audio.
-    </audio>
+
+    <!-- Script pour contrôler le son -->
     <script>
-        const audio = document.getElementById("background-audio");
         const muteButton = document.getElementById("mute-button");
+        let isMuted = true; // L'iframe commence avec le son coupé
 
         muteButton.addEventListener("click", () => {
-            audio.muted = !audio.muted;
-            muteButton.textContent = audio.muted ? "Activer le son" : "Couper le son";
+            isMuted = !isMuted;
+            const iframe = document.querySelector('iframe');
+            const iframeSrc = iframe.src;
+
+            // Pour couper ou réactiver le son
+            iframe.src = iframeSrc.includes("mute=1") ? iframeSrc.replace("mute=1", "mute=0") : iframeSrc.replace("mute=0", "mute=1");
+            muteButton.textContent = isMuted ? "Activer le son" : "Couper le son";
         });
     </script>
 </body>
