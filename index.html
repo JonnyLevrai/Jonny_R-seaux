@@ -1,140 +1,389 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Site Style Hacker</title>
+    <title>N2K x jonnyYuqii BAP</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
-        body, html {
+        body {
             margin: 0;
-            padding: 0;
-            height: 100%;
-            font-family: 'Courier New', Courier, monospace;
-            color: #00ff00;
-            background: black;
             overflow: hidden;
+            background: #000;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: lime;
+            position: relative;
         }
 
-        /* Style de la vidéo YouTube en fond */
-        .video-background {
-            position: fixed;
+        canvas {
+            display: block;
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
         }
 
-        .video-background iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            object-fit: cover;
-        }
-
-        /* Contenu principal */
-        .content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 3rem;
-            text-shadow: 0 0 10px #00ff00;
-        }
-
-        p {
-            font-size: 1.2rem;
-        }
-
-        .social-links a {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 1.2rem;
-            color: #00ff00;
-            border: 2px solid #00ff00;
-            border-radius: 5px;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background: #00ff00;
-            color: black;
-            box-shadow: 0 0 15px #00ff00;
-        }
-
-        .audio-controls {
+        #soundButton {
             position: absolute;
             top: 20px;
-            right: 20px;
-        }
-
-        .audio-controls button {
-            padding: 10px 20px;
-            background: black;
-            color: #00ff00;
-            border: 2px solid #00ff00;
-            border-radius: 5px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid lime;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
         }
 
-        .audio-controls button:hover {
-            background: #00ff00;
+        #soundButton img {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Intro page */
+        #introPage {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: lime;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-size: 48px;
+            text-align: center;
+            z-index: 9999;
+        }
+
+        #mainTitle {
+            font-size: 72px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #subTitle {
+            font-size: 36px;
+            margin-bottom: 40px;
+        }
+
+        #introPage p {
+            margin: 20px 0;
+        }
+
+        #introPage button {
+            background-color: lime;
             color: black;
-            box-shadow: 0 0 10px #00ff00;
+            border: none;
+            padding: 10px 20px;
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #introPage button:hover {
+            background-color: #00cc00;
+        }
+
+        /* Window for BAP description */
+        #bapWindow {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center the window */
+            width: 80%; /* Make the window width responsive */
+            max-width: 600px; /* Limit maximum width */
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 2px solid lime;
+            border-radius: 10px;
+            padding: 20px;
+            color: lime;
+            z-index: 10000;
+            font-size: 18px;
+            text-align: center;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: auto; /* Adjust height based on content */
+            overflow: visible; /* Ensure no scrolling */
+            box-sizing: border-box; /* Ensures padding is included in width calculation */
+        }
+
+        #bapWindow h2 {
+            margin-top: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        #bapWindow p {
+            margin: 20px 0;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        #bapWindow button {
+            background-color: lime;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        #bapWindow button:hover {
+            background-color: #00cc00;
+        }
+
+        /* Media queries for smaller screens */
+        @media screen and (max-width: 768px) {
+            #introPage {
+                font-size: 36px; /* Smaller font for smaller screens */
+            }
+
+            #bapWindow {
+                width: 90%; /* Make the window take up 90% of the screen width */
+                padding: 15px; /* Reduce padding for smaller screens */
+            }
+
+            #bapWindow h2 {
+                font-size: 24px; /* Adjust heading size */
+            }
+
+            #bapWindow p {
+                font-size: 16px; /* Adjust paragraph size */
+            }
+
+            #introPage button {
+                font-size: 20px; /* Reduce button size */
+            }
+        }
+
+        /* For even smaller screens (e.g., mobile phones) */
+        @media screen and (max-width: 480px) {
+            #introPage {
+                font-size: 24px; /* Further reduce font size for phones */
+            }
+
+            #bapWindow {
+                width: 95%; /* Take up most of the screen on small devices */
+                padding: 10px; /* Further reduce padding */
+            }
+
+            #bapWindow h2 {
+                font-size: 20px; /* Adjust heading size */
+            }
+
+            #bapWindow p {
+                font-size: 14px; /* Smaller text for smaller screens */
+            }
+
+            #introPage button {
+                font-size: 18px; /* Make the button text smaller */
+            }
+        }
+
+        /* Footer */
+        #footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: lime;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 18px;
+            z-index: 99999;
+        }
+
+        #footer a {
+            color: lime;
+            text-decoration: none;
+        }
+
+        #socialLinks {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        #socialLinks img {
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+        }
+
+        #socialLinks img:hover {
+            opacity: 0.7;
         }
     </style>
 </head>
 <body>
-
-    <!-- Fond vidéo YouTube -->
-    <div class="video-background">
-        <iframe src="https://www.youtube.com/embed/KCVN-SuBBWM?autoplay=1&mute=1&loop=1&playlist=KCVN-SuBBWM" 
-                frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    <!-- Intro page with title and subtitle -->
+    <div id="introPage">
+        <div id="mainTitle">N2K x jonnyYuqii BAP</div>
+        <div id="subTitle">(Brigade Anti-Pédophilie)</div>
+        <p>VOUS ÊTES SUR LE POINT D'ENTRER SUR LA PAGE DE LA BAP DE N2K x jonnyYuqii</p>
+        <button id="enterButton">Entrer</button>
     </div>
 
-    <!-- Contenu principal -->
-    <div class="content">
-        <h1>Bienvenue dans mon univers</h1>
-        <p>Retrouvez-moi sur :</p>
-        <div class="social-links">
-            <a href="https://youtube.com" target="_blank">YouTube</a>
-            <a href="https://discord.com" target="_blank">Discord</a>
-            <a href="https://github.com" target="_blank">GitHub</a>
-            <a href="https://tiktok.com" target="_blank">TikTok</a>
-            <a href="https://instagram.com" target="_blank">Instagram</a>
-            <a href="https://snapchat.com" target="_blank">Snapchat</a>
+    <canvas id="networkCanvas" style="display: none;"></canvas>
+    <div id="soundButton" style="display: none;">
+        <img id="soundIcon" src="sound.png" alt="Sound">
+    </div>
+
+    <!-- BAP Description Window -->
+    <div id="bapWindow">
+        <h2>Notre Mission : Protéger les Enfants</h2>
+        <p>
+            Bienvenue sur la plateforme N2K x JonnyYuqii. Nous sommes une communauté dévouée, unissant nos forces pour lutter contre les comportements prédateurs en ligne et protéger les enfants. 
+            nous agissons chaque jour pour créer un monde plus sûr.
+            <br><br>
+            Chaque membre de la BAP joue un rôle essentiel : sensibiliser les familles, signaler les abus aux autorités compétentes et contribuer à des campagnes éducatives. 
+            Grâce à notre réseau grandissant, nous avons déjà pu intervenir dans des situations critiques.
+            <br><br>
+            Rejoindre la BAP, c’est s’impliquer dans une mission noble et courageuse. Nous croyons en la force collective pour réduire les risques auxquels les enfants sont exposés.
+            nous développons des outils concrets pour surveiller et signaler les activités suspectes, tout en accompagnant les victimes et leurs familles.
+            <br><br>
+            Nous avons besoin de vous pour continuer ce combat. Que vous souhaitiez contribuer à notre réseau de veille ou simplement soutenir nos actions, chaque geste compte. Ensemble, nous pouvons changer les choses.
+        </p>
+        <button id="joinButton">Rejoignez-nous</button>
+    </div>
+
+    <!-- Audio -->
+    <audio id="backgroundMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Footer with social media links -->
+    <div id="footer">
+        © N2K x JonnyYuqii 2024 - All rights reserved.
+        <div id="socialLinks">
+            <a href="https://discord.gg/your-link" target="_blank"><img src="discord-icon.png" alt="Discord"></a>
+            <a href="https://www.instagram.com/yourusername" target="_blank"><img src="instagram-icon.png" alt="Instagram"></a>
+            <a href="https://www.youtube.com/c/yourchannel" target="_blank"><img src="youtube-icon.png" alt="YouTube"></a>
+            <a href="https://github.com/yourusername" target="_blank"><img src="github-icon.png" alt="GitHub"></a>
+            <a href="https://www.tiktok.com/@yourusername" target="_blank"><img src="tiktok-icon.png" alt="TikTok"></a>
         </div>
     </div>
 
-    <!-- Contrôle audio pour YouTube -->
-    <div class="audio-controls">
-        <button id="mute-button">Couper le son</button>
-    </div>
-
-    <!-- Script pour contrôler le son -->
     <script>
-        const muteButton = document.getElementById("mute-button");
-        let isMuted = true; // L'iframe commence avec le son coupé
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+        const soundButton = document.getElementById('soundButton');
+        const soundIcon = document.getElementById('soundIcon');
+        const backgroundMusic = document.getElementById('backgroundMusic');
+        const introPage = document.getElementById('introPage');
+        const enterButton = document.getElementById('enterButton');
+        const bapWindow = document.getElementById('bapWindow');
+        const joinButton = document.getElementById('joinButton');
 
-        muteButton.addEventListener("click", () => {
-            isMuted = !isMuted;
-            const iframe = document.querySelector('iframe');
-            const iframeSrc = iframe.src;
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-            // Pour couper ou réactiver le son
-            iframe.src = iframeSrc.includes("mute=1") ? iframeSrc.replace("mute=1", "mute=0") : iframeSrc.replace("mute=0", "mute=1");
-            muteButton.textContent = isMuted ? "Activer le son" : "Couper le son";
+        // Sound variables
+        let isSoundOn = true;
+
+        const startMusic = () => {
+            introPage.style.display = 'none'; // Hide intro page
+            canvas.style.display = 'block'; // Show canvas for animation
+            bapWindow.style.display = 'block'; // Show BAP window
+            soundButton.style.display = 'flex'; // Show sound button
+            backgroundMusic.volume = 0.5;
+            backgroundMusic.play().catch(error => console.log("Error playing music:", error));
+            animate();
+        };
+
+        enterButton.addEventListener('click', startMusic);
+
+        joinButton.addEventListener('click', () => {
+            window.location.href = "https://discord.gg/"; // Replace with actual link
         });
+
+        const toggleSound = () => {
+            if (isSoundOn) {
+                backgroundMusic.pause();
+                soundIcon.src = 'soundoff.png';
+            } else {
+                backgroundMusic.play();
+                soundIcon.src = 'sound.png';
+            }
+            isSoundOn = !isSoundOn;
+        };
+
+        soundButton.addEventListener('click', toggleSound);
+
+        const nodes = [];
+        const numNodes = 150;
+
+        class Node {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.vy = (Math.random() - 0.5) * 2;
+                this.radius = 3 + Math.random() * 3;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'lime';
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        for (let i = 0; i < numNodes; i++) {
+            nodes.push(new Node(Math.random() * canvas.width, Math.random() * canvas.height));
+        }
+
+        function drawConnections() {
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dist = Math.sqrt((nodes[i].x - nodes[j].x) ** 2 + (nodes[i].y - nodes[j].y) ** 2);
+                    if (dist < 100) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = 'lime';
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let node of nodes) {
+                node.update();
+                node.draw();
+            }
+            drawConnections();
+            requestAnimationFrame(animate);
+        }
     </script>
 </body>
 </html>
